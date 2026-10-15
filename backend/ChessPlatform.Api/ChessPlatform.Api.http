@@ -1,6 +1,4 @@
-@ChessPlatform.Api_HostAddress = http://localhost:5004
+@ChessPlatform.Api_HostAddress = https://localhost:7182
 
-GET {{ChessPlatform.Api_HostAddress}}/weatherforecast/
+GET {{ChessPlatform.Api_HostAddress}}/api/tournaments
 Accept: application/json
-
-###

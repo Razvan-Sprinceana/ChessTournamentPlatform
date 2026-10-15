@@ -1,6 +1,7 @@
 ﻿using ChessPlatform.Api.Entities;
 using ChessPlatform.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChessPlatform.Api.Data
 {
@@ -16,6 +17,18 @@ namespace ChessPlatform.Api.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+			var utcConverter = new ValueConverter<DateTime, DateTime>(
+				toDb => toDb.Kind == DateTimeKind.Local ? toDb.ToUniversalTime() : toDb,
+				fromDb => DateTime.SpecifyKind(fromDb, DateTimeKind.Utc));
+
+			foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties()))
+			{
+				if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+				{
+					property.SetValueConverter(utcConverter);
+				}
+			}
 		}
 	}
 }
