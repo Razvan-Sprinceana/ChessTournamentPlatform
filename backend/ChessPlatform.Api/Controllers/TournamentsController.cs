@@ -20,5 +20,15 @@ namespace ChessPlatform.Api.Controllers
 			var tournaments = await tournamentService.GetTournamentsAsync(cancellationToken);
 			return Ok(tournaments);
 		}
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<TournamentDetailsDto>> GetTournamentById(int id, CancellationToken cancellationToken)
+		{
+			var tournament = await tournamentService.GetTournamentByIdAsync(id, cancellationToken);
+			if (tournament == null)
+			{
+				return NotFound();
+			}
+			return Ok(tournament);
+		}
 	}
 }

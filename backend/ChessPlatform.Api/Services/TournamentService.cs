@@ -32,5 +32,33 @@ namespace ChessPlatform.Api.Services
 			.AsNoTracking()
 			.ToListAsync(cancellationToken);
 		}
+
+		public async Task<TournamentDetailsDto?> GetTournamentByIdAsync(int id, CancellationToken ct = default)
+		{
+			return await _appDbContext.Tournaments
+				.Where(t => t.Id == id)
+				.Select(t => new TournamentDetailsDto(
+					t.Id,
+					t.Name,
+					t.StartDate,
+					t.EndDate,
+					t.State,
+					t.OrganizerId,
+					t.Organizer.Username,
+					t.NumberOfRounds,
+					t.MinRating,
+					t.MaxRating,
+					t.Registrations
+						.Where(r => r.State == TournamentRegistrationState.Registered)
+						.OrderByDescending(r => r.UserRatingAtRegistration)
+						.Select(r => new TournamentPlayerDto(
+							r.UserId,
+							r.User.Username,
+							r.User.Rating
+						))
+						.ToList()
+				))
+				.FirstOrDefaultAsync(ct);
+		}
 	}
 }
