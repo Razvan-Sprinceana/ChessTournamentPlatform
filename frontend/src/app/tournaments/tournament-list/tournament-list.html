@@ -1,0 +1,34 @@
+<h1>Tournaments</h1>
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (tournaments().length === 0) {
+  <p>No tournaments yet.</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Dates</th>
+        <th>State</th>
+        <th>Organizer</th>
+        <th>Players</th>
+        <th>Rating range</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (t of tournaments(); track t.id) {
+        <tr>
+          <td>{{ t.name }}</td>
+          <td>{{ t.startDate | date: 'd MMM y' }} – {{ t.endDate | date: 'd MMM y' }}</td>
+          <td>{{ t.state }}</td>
+          <td>{{ t.organizerName }}</td>
+          <td>{{ t.numberOfPlayers }}</td>
+          <td>{{ t.minRating ?? 'any' }} – {{ t.maxRating ?? 'any' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
