@@ -23,6 +23,14 @@ builder.Services.AddScoped<TournamentRegistrationService>();
 builder.Services.AddScoped<TournamentCompletionService>();
 builder.Services.AddScoped<TournamentService>();
 
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("Frontend", policy =>
+		policy.WithOrigins(builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
+			  .AllowAnyHeader()
+			  .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,7 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("Frontend");
 app.UseAuthorization();
 
 app.MapControllers();
