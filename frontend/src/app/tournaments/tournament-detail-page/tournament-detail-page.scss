@@ -1,0 +1,6 @@
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+dt { font-weight: 600; }
+dd { margin: 0; }
+table { border-collapse: collapse; width: 100%; max-width: 480px; }
+th, td { padding: 8px 12px; border-bottom: 1px solid #ddd; text-align: left; }
+.error { color: #b00020; }

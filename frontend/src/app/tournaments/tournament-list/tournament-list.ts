@@ -2,9 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TournamentService } from '../../services/tournament';
 import { TournamentListItem } from '../../models/tournament';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   selector: 'app-tournament-list',
   styleUrl: './tournament-list.scss',
   templateUrl: './tournament-list.html',

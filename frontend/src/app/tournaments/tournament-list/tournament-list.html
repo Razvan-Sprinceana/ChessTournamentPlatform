@@ -21,7 +21,7 @@
     <tbody>
       @for (t of tournaments(); track t.id) {
         <tr>
-          <td>{{ t.name }}</td>
+          <td><a [routerLink]="['/tournaments', t.id]">{{ t.name }}</a></td>
           <td>{{ t.startDate | date: 'd MMM y' }} – {{ t.endDate | date: 'd MMM y' }}</td>
           <td>{{ t.state }}</td>
           <td>{{ t.organizerName }}</td>

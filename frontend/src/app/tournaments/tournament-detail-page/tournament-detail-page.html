@@ -1,0 +1,46 @@
+<a routerLink="/">← All tournaments</a>
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (notFound()) {
+  <h1>Tournament not found</h1>
+  <p>This tournament doesn't exist or was removed.</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (tournament(); as t) {
+  <h1>{{ t.name }}</h1>
+
+  <dl>
+    <dt>Dates</dt>
+    <dd>{{ t.startDate | date: 'd MMM y' }} – {{ t.endDate | date: 'd MMM y' }}</dd>
+    <dt>State</dt>
+    <dd>{{ t.state }}</dd>
+    <dt>Organizer</dt>
+    <dd>{{ t.organizerName }}</dd>
+    <dt>Rounds</dt>
+    <dd>{{ t.numberOfRounds }}</dd>
+    <dt>Rating range</dt>
+    <dd>{{ t.minRating ?? 'any' }} – {{ t.maxRating ?? 'any' }}</dd>
+  </dl>
+
+  <h2>Players ({{ t.players.length }})</h2>
+
+  @if (t.players.length === 0) {
+    <p>No players registered yet.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr><th>#</th><th>Player</th><th>Rating at registration</th></tr>
+      </thead>
+      <tbody>
+        @for (p of t.players; track p.userId; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ p.username }}</td>
+            <td>{{ p.ratingAtRegistration }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
